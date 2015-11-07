@@ -15,9 +15,9 @@ class MoviesController < ApplicationController
     
     unless (params[:ratings])
       if (session[:ratings] == nil)
-        @ratings = {}
-        @all_ratings.each { |rating| @ratings[rating.to_sym] = "1"}
-        session[:ratings] = @ratings
+
+        @all_ratings.each { |rating| session[:ratings][rating.to_sym] = "1"}
+
         redirect_to movies_path
       else
         @ratings_selected = session[:ratings]
@@ -27,10 +27,6 @@ class MoviesController < ApplicationController
       @ratings_selected = params[:ratings]
       session[:ratings] = @ratings_selected
     end
-    
-    
-    
-    
     
     
     @sort_by = params[:sort]
