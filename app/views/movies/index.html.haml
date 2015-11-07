@@ -10,11 +10,11 @@
   %thead
     %tr
       %th{:class => ('hilite' if @sort_by.eql? "title")}
-        %a{ :title => "title_header", :href => movies_path(:sort => :title)}
+        %a{ :id => "title_header", :href => movies_path(:sort => :title)}
           Movie Title
       %th Rating
       %th{:class => ('hilite' if @sort_by.eql? "release_date")}
-        %a{:title => "release_date_header", :href => movies_path(:sort => :release_date)}
+        %a{:id => "release_date_header", :href => movies_path(:sort => :release_date)}
           Release Date
       %th More Info
   %tbody
