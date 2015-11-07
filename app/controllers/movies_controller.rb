@@ -10,35 +10,41 @@ class MoviesController < ApplicationController
     # will render app/views/movies/show.<extension> by default
   end
 
-
   def index
+    must_redirect = false
+    puts "Params = #{params}"
+    
     @all_ratings = Movie.getAllRatings
     
-    unless (params[:ratings])
+    @ratings_selected = params[:ratings]
+    if (@ratings_selected == nil)
       if (session[:ratings] == nil)
-        session[:ratings] = {}
-        @all_ratings.each { |rating| session[:ratings][rating.to_sym] = "1"}
-        flash.keep
-        redirect_to movies_path
-      else
-        @ratings_selected = session[:ratings]
+        all_ratings.each { |rating| session[:ratings][rating.to_sym] = "1"}
       end
+      params[:ratings] = session[:ratings]
+      must_redirect = true
     else
-      @ratings_selected = params[:ratings]
       session[:ratings] = @ratings_selected
     end
     
-    
     @sort_by = params[:sort]
-    if not (@sort_by == nil)
-      session[:sort_by] = @sort_by
-    elsif not(session[:sort_by] == nil)
-      @sort_by = session[:sort_by]
-      redirect_to movies_path
+    if (@sort_by == nil)
+      if not(session[:sort] == nil)
+        params[:sort] = session[:sort]
+        must_redirect = true
+      else
+        params[:sort] = nil
+      end
+    else
+      session[:sort] = @sort_by
     end
     
-    @movies = Movie.findUsingRatings(@ratings_selected, @sort_by)
-    
+    if (must_redirect)
+      redirect_to(movies_path(params))
+    else
+      @movies = Movie.findUsingRatings(@ratings_selected, @sort_by)
+    end
+
   end
 
   def new
