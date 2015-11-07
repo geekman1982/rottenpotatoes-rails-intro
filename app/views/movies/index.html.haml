@@ -4,9 +4,13 @@
 %table#movies
   %thead
     %tr
-      %th Movie Title
+      %th{:class => ('hilite' if @sort_by.eql? "title")}
+        %a{ :title => "title_header", :href => movies_path(:sort => :title)}
+          Movie Title
       %th Rating
-      %th Release Date
+      %th{:class => ('hilite' if @sort_by.eql? "release_date")}
+        %a{:title => "release_date_header", :href => movies_path(:sort => :release_date)}
+          Release Date
       %th More Info
   %tbody
     - @movies.each do |movie|
