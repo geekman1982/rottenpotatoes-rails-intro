@@ -12,14 +12,13 @@ class MoviesController < ApplicationController
 
   def index
     must_redirect = false
-    puts "Params = #{params}"
     
     @all_ratings = Movie.getAllRatings
     
     @ratings_selected = params[:ratings]
     if (@ratings_selected == nil)
       if (session[:ratings] == nil)
-        all_ratings.each { |rating| session[:ratings][rating.to_sym] = "1"}
+        @all_ratings.each { |rating| session[:ratings][rating.to_sym] = "1"}
       end
       params[:ratings] = session[:ratings]
       must_redirect = true
