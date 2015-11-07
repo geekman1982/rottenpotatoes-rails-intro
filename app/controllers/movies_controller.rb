@@ -5,6 +5,7 @@ class MoviesController < ApplicationController
   end
 
   def show
+    reset_session
     id = params[:id] # retrieve movie ID from URI route
     @movie = Movie.find(id) # look up movie by unique ID
     # will render app/views/movies/show.<extension> by default
@@ -18,6 +19,7 @@ class MoviesController < ApplicationController
     @ratings_selected = params[:ratings]
     if (@ratings_selected == nil)
       if (session[:ratings] == nil)
+        session[:ratings] = {}
         @all_ratings.each { |rating| session[:ratings][rating.to_sym] = "1"}
       end
       params[:ratings] = session[:ratings]
