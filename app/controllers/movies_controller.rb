@@ -10,6 +10,7 @@ class MoviesController < ApplicationController
     # will render app/views/movies/show.<extension> by default
   end
 
+
   def index
     @all_ratings = Movie.getAllRatings
     
@@ -33,6 +34,7 @@ class MoviesController < ApplicationController
       session[:sort_by] = @sort_by
     elsif not(session[:sort_by] == nil)
       @sort_by = session[:sort_by]
+      redirect_to movies_path
     end
     
     @movies = Movie.findUsingRatings(@ratings_selected, @sort_by)
