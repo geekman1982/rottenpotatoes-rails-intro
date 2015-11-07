@@ -15,14 +15,12 @@ class MoviesController < ApplicationController
     
     unless (params[:ratings])
       if (session[:ratings] == nil)
-
         @all_ratings.each { |rating| session[:ratings][rating.to_sym] = "1"}
-
+        flash.keep
         redirect_to movies_path
       else
         @ratings_selected = session[:ratings]
       end
-
     else
       @ratings_selected = params[:ratings]
       session[:ratings] = @ratings_selected
